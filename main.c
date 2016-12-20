@@ -2,53 +2,47 @@
 #include <stdlib.h>
 #include <string.h>
 /*
-        t       S       Next State
-       ---     ---     ------------
-        0       S0          S1
-        0       S1          S1
-        1       S1          S2
-        1       S2          S2
-        0       S2          S1
-        1       S0          S3
-        1       S3          S3
-        0       S3          S4
-        0       S4          S4
-        1       S4          S3
+    t       State       Next State
+   ---     -------     ------------
+
+   0        q0              q0
+   1        q0              q1
+   0        q1              q1
+   1        q1              q0
+
+
+   ----------          1        +++++++++
+  0|  q0    |       ----->      +   q1  + 0
+   |        |       <-----      +       +
+   ----------           1       +++++++++
+
+
 */
-struct priority
+
+struct parity
 {
-    struct priority *adres1;
-    struct priority *adres0;
+    struct parity *adres0;
+    struct parity *adres1;
 };
 
 int main()
 {
-    struct priority *s0,*s1,*s2,*s3,*s4,*_final;
-    char *mesaj;
+    struct parity *q0,*q1,*_final;
     int i;
+    char *mesaj;
+    mesaj = (char *)malloc(sizeof(char)*20);
 
-    mesaj = (char*)malloc(sizeof(char)*20);
-
-    printf("Prioty : ");
+    printf("Parity : ");
     scanf("%s",mesaj);
 
-    s0 = (struct priority*)malloc(sizeof(struct priority));
-    s1 = (struct priority*)malloc(sizeof(struct priority));
-    s2 = (struct priority*)malloc(sizeof(struct priority));
-    s3 = (struct priority*)malloc(sizeof(struct priority));
-    s4 = (struct priority*)malloc(sizeof(struct priority));
+    q0 = (struct parity*)malloc(sizeof(struct parity));
+    q1 = (struct parity*)malloc(sizeof(struct parity));
 
-    s0->adres0 = s1;
-    s1->adres0 = s1;
-    s1->adres1 = s2;
-    s2->adres1 = s2;
-    s2->adres0 = s1;
-    s0->adres1 = s3;
-    s3->adres1 = s3;
-    s3->adres0 = s4;
-    s4->adres0 = s4;
-    s4->adres1 = s3;
-    _final=s0;
+    q0->adres0 = q0;
+    q0->adres1 = q1;
+    q1->adres0 = q1;
+    q1->adres1 = q0;
+    _final=q0;
 
     for (i=0; i<strlen(mesaj); i++)
     {
@@ -62,13 +56,13 @@ int main()
         }
     }
 
-    if (_final == s2 || _final == s4)
+    if (_final == q0)
     {
-        printf("Kabul");
+        printf("Çift");
     }
     else
     {
-        printf("Red");
+        printf("Tek");
     }
 
     return 0;
