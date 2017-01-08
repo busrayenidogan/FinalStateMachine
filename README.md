@@ -1,2 +1,2 @@
-# FinalStateMachine
+# FiniteStateMachine
 Learning with C
